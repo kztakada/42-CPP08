@@ -14,8 +14,8 @@ class Span {
     Span &operator=(Span const &other);
 
     void addNumber(int number);
-    int shortestSpan() const;
-    int longestSpan() const;
+    unsigned int shortestSpan() const;
+    unsigned int longestSpan() const;
 
     size_t getSize() const;
     size_t getEmptySize() const;

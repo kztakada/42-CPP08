@@ -82,6 +82,17 @@ int main() {
     std::cout << "Longest span: " << longest
               << std::endl;  // Expected: 14 (3 - 17)
 
+    // Test maximum span
+    Span sp1 = Span(3);
+    sp1.addNumber(INT_MIN);
+    sp1.addNumber(INT_MAX);
+    assert(sp1.shortestSpan() == UINT_MAX);
+    assert(sp1.longestSpan() == UINT_MAX);
+
+    sp1.addNumber(INT_MIN + 1);
+    assert(sp1.shortestSpan() == 1);
+    assert(sp1.longestSpan() == UINT_MAX);
+
     // Test with insufficient numbers
     Span sp2 = Span(5);
     try {
