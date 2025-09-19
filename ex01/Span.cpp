@@ -3,19 +3,22 @@
 #include <algorithm>
 #include <climits>
 
-Span::Span() : _maxSize(0), _numbers() {}
+Span::Span() : _maxSize(0), _numbers(), _sortedNumbers() {}
 
-Span::Span(unsigned int N) : _maxSize(N), _numbers() {}
+Span::Span(unsigned int N) : _maxSize(N), _numbers(), _sortedNumbers() {}
 
 Span::~Span() {}
 
 Span::Span(Span const &other)
-    : _maxSize(other._maxSize), _numbers(other._numbers) {}
+    : _maxSize(other._maxSize),
+      _numbers(other._numbers),
+      _sortedNumbers(other._sortedNumbers) {}
 
 Span &Span::operator=(Span const &other) {
     if (this != &other) {
         _maxSize = other._maxSize;
         _numbers = other._numbers;
+        _sortedNumbers = other._sortedNumbers;
     }
     return *this;
 }
@@ -26,29 +29,33 @@ void Span::addNumber(int number) {
         throw std::out_of_range("Span is full");
     }
     _numbers.push_back(number);
+    _sortedNumbers.insert(number);
 }
 
-static unsigned int min(unsigned int a, unsigned int b) {
-    return (a < b) ? a : b;
-}
+// static unsigned int min(unsigned int a, unsigned int b) {
+//     return (a < b) ? a : b;
+// }
 
 unsigned int Span::shortestSpan() const {
     if (_numbers.size() < 2) {
         throw std::logic_error("Not enough numbers to find a span");
     }
 
-    std::vector<int> sortedNumbers = _numbers;
-    std::sort(sortedNumbers.begin(), sortedNumbers.end());
+    std::multiset<int>::const_iterator current = _sortedNumbers.begin();
+    std::multiset<int>::const_iterator next = current;
+    ++next;
 
-    std::vector<int>::reverse_iterator i, prev;
     unsigned int minSpan = UINT_MAX;
-    for (i = sortedNumbers.rbegin(), prev = (i + 1);
-        prev != sortedNumbers.rend(); i++, prev++) {
-        minSpan =
-            min(minSpan, static_cast<unsigned int>(
-                             static_cast<long>(*i) - static_cast<long>(*prev)));
-        if (minSpan == 0)
+    while (next != _sortedNumbers.end()) {
+        unsigned int span = static_cast<unsigned int>(*next - *current);
+        if (span < minSpan) {
+            minSpan = span;
+        }
+        if (minSpan == 0) {
             return 0;
+        }
+        ++current;
+        ++next;
     }
     return minSpan;
 }

@@ -2,6 +2,7 @@
 #define SPAN_HPP
 
 #include <exception>
+#include <set>
 #include <stdexcept>
 #include <vector>
 
@@ -30,6 +31,7 @@ class Span {
    private:
     unsigned int _maxSize;
     std::vector<int> _numbers;
+    std::multiset<int> _sortedNumbers;
 };
 
 #endif /* SPAN_HPP */

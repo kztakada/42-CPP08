@@ -54,15 +54,22 @@ int main() {
         assert(sp4.longestSpan() == 110);
     }
 
-    Span sp = Span(5);
+    Span sp = Span(12);
     assert(sp.getSize() == 0);
 
+    sp.addNumber(17);
     sp.addNumber(6);
     sp.addNumber(3);
-    sp.addNumber(17);
     sp.addNumber(9);
     sp.addNumber(11);
-    assert(sp.getSize() == 5);
+    sp.addNumber(42);
+    sp.addNumber(100);
+    sp.addNumber(-10);
+    sp.addNumber(11);
+    sp.addNumber(-39);
+    sp.addNumber(0);
+    sp.addNumber(5);
+    assert(sp.getSize() == 12);
 
     // Test adding number to a full Span
     try {
@@ -75,12 +82,12 @@ int main() {
     // Test shortestSpan and longestSpan
     int shortest = sp.shortestSpan();
     int longest = sp.longestSpan();
-    assert(shortest == 2);
-    assert(longest == 14);
+    assert(shortest == 0);   // 11 - 11
+    assert(longest == 139);  // -39 - 100
     std::cout << "Shortest span: " << shortest
-              << std::endl;  // Expected: 2 (9 - 11 or 11 - 9)
+              << std::endl;  // Expected: 0 (11 - 11)
     std::cout << "Longest span: " << longest
-              << std::endl;  // Expected: 14 (3 - 17)
+              << std::endl;  // Expected: 139 (-39 - 100)
 
     // Test maximum span
     Span sp1 = Span(3);
