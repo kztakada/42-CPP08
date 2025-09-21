@@ -6,27 +6,33 @@
 #include "easyfind.hpp"
 
 template <typename Iterator>
-void printFindResult(Iterator result_itr, Iterator end_itr) {
-    if (result_itr != end_itr) {
+void printFindResult(Iterator result_itr, Iterator end_itr)
+{
+    if (result_itr != end_itr)
+    {
         std::cout << "Found: " << *result_itr << std::endl;
-    } else {
+    }
+    else
+    {
         std::cout << "Not Found" << std::endl;
     }
 }
 
-int main() {
+int main()
+{
     // Test with std::vector
     std::vector<int> vec;
-    for (int i = 0; i < 10; ++i) {
+    for (int i = 0; i < 10; ++i)
+    {
         vec.push_back(i * 10);
+        std::cout << "vec[" << i << "] = " << vec[i] << std::endl;
     }
-    if (!vec.empty()) {
-        assert(vec.size() == 10);
-        assert(*vec.begin() == 0);
-        assert(*(vec.end() - 1) == 90);
-        assert(*vec.rbegin() == 90);
-        assert(*(vec.rend() - 1) == 0);
-    }
+
+    assert(vec.size() == 10);
+    assert(*vec.begin() == 0);
+    assert(*(vec.end() - 1) == 90);
+    assert(*vec.rbegin() == 90);
+    assert(*(vec.rend() - 1) == 0);
 
     // case 1: value exists
     std::vector<int>::iterator result_vec_itr = easyfind(vec, 50);
@@ -55,20 +61,21 @@ int main() {
     std::cout << "---------------------" << std::endl;
     // Test with std::list
     std::list<int> lst;
-    for (int i = 0; i < 5; ++i) {
+    for (int i = 0; i < 5; ++i)
+    {
         lst.push_back(i * 20);
+        std::cout << "lst element: " << *(--lst.end()) << std::endl;
     }
-    if (!lst.empty()) {
-        assert(lst.size() == 5);
-        assert(*lst.begin() == 0);
-        std::list<int>::iterator lastElement = lst.end();
-        --lastElement;
-        assert(*lastElement == 80);
-        assert(*lst.rbegin() == 80);
-        std::list<int>::reverse_iterator firstElementReverse = lst.rend();
-        --firstElementReverse;
-        assert(*firstElementReverse == 0);
-    }
+
+    assert(lst.size() == 5);
+    assert(*lst.begin() == 0);
+    std::list<int>::iterator lastElement = lst.end();
+    --lastElement;
+    assert(*lastElement == 80);
+    assert(*lst.rbegin() == 80);
+    std::list<int>::reverse_iterator firstElementReverse = lst.rend();
+    --firstElementReverse;
+    assert(*firstElementReverse == 0);
 
     // case 1: value exists
     std::list<int>::iterator result_lst_itr = easyfind(lst, 60);
