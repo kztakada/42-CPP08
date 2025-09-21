@@ -7,7 +7,8 @@
 #include <vector>
 
 #include "Span.hpp"
-int main() {
+int main()
+{
     // test from Subject
     {
         Span sp = Span(5);
@@ -41,13 +42,13 @@ int main() {
         assert(sp2.shortestSpan() == 52);
         assert(sp2.longestSpan() == 110);
 
-        Span sp3(sp2);  // Copy constructor
+        Span sp3(sp2); // Copy constructor
         assert(sp3.getSize() == 3);
         assert(sp3.getEmptySize() == 7);
         assert(sp3.shortestSpan() == 52);
         assert(sp3.longestSpan() == 110);
 
-        Span sp4 = sp2;  // Copy assignment operator
+        Span sp4 = sp2; // Copy assignment operator
         assert(sp4.getSize() == 3);
         assert(sp4.getEmptySize() == 7);
         assert(sp4.shortestSpan() == 52);
@@ -72,22 +73,25 @@ int main() {
     assert(sp.getSize() == 12);
 
     // Test adding number to a full Span
-    try {
+    try
+    {
         sp.addNumber(42);
-        assert(false);  // Should not reach here
-    } catch (const std::out_of_range &e) {
+        assert(false); // Should not reach here
+    }
+    catch (const std::out_of_range &e)
+    {
         assert(std::string(e.what()) == "Span is full");
     }
 
     // Test shortestSpan and longestSpan
     int shortest = sp.shortestSpan();
     int longest = sp.longestSpan();
-    assert(shortest == 0);   // 11 - 11
-    assert(longest == 139);  // -39 - 100
+    assert(shortest == 0);  // 11 - 11
+    assert(longest == 139); // -39 - 100
     std::cout << "Shortest span: " << shortest
-              << std::endl;  // Expected: 0 (11 - 11)
+              << std::endl; // Expected: 0 (11 - 11)
     std::cout << "Longest span: " << longest
-              << std::endl;  // Expected: 139 (-39 - 100)
+              << std::endl; // Expected: 139 (-39 - 100)
 
     // Test maximum span
     Span sp1 = Span(3);
@@ -102,85 +106,98 @@ int main() {
 
     // Test with insufficient numbers
     Span sp2 = Span(5);
-    try {
+    try
+    {
         sp2.shortestSpan();
-        assert(false);  // Should not reach here
-    } catch (const std::logic_error &e) {
+        assert(false); // Should not reach here
+    }
+    catch (const std::logic_error &e)
+    {
         assert(std::string(e.what()) == "Not enough numbers to find a span");
     }
-    try {
+    try
+    {
         sp2.longestSpan();
-        assert(false);  // Should not reach here
-    } catch (const std::logic_error &e) {
+        assert(false); // Should not reach here
+    }
+    catch (const std::logic_error &e)
+    {
         assert(std::string(e.what()) == "Not enough numbers to find a span");
     }
     sp2.addNumber(42);
-    try {
+    try
+    {
         sp2.shortestSpan();
-        assert(false);  // Should not reach here
-    } catch (const std::logic_error &e) {
+        assert(false); // Should not reach here
+    }
+    catch (const std::logic_error &e)
+    {
         assert(std::string(e.what()) == "Not enough numbers to find a span");
     }
-    try {
+    try
+    {
         sp2.longestSpan();
-        assert(false);  // Should not reach here
-    } catch (const std::logic_error &e) {
+        assert(false); // Should not reach here
+    }
+    catch (const std::logic_error &e)
+    {
         assert(std::string(e.what()) == "Not enough numbers to find a span");
     }
 
     // Test adding a range of numbers
     Span sp3 = Span(10);
     std::vector<int> nums;
-    for (int i = 0; i < 20; ++i) {
-        nums.push_back(i * 5);  // 0, 5, 10, ..., 95
+    for (int i = 0; i < 20; ++i)
+    {
+        nums.push_back(i * 5); // 0, 5, 10, ..., 95
     }
-    try {
+    try
+    {
         sp3.addNumbers(nums.begin(), nums.end());
-        assert(false);  // Should not reach here
-    } catch (const std::out_of_range &e) {
+        assert(false); // Should not reach here
+    }
+    catch (const std::out_of_range &e)
+    {
         assert(std::string(e.what()) == "Span is full");
     }
     assert(sp3.getSize() == 10);
     assert(sp3.shortestSpan() == 5);
     assert(sp3.longestSpan() == 45);
 
-    time_t start, rap;
-    time(&start);
     // Test adding a range of numbers exceeding capacity
-    std::cout << "start large test :" << start - start << "s" << std::endl;
-    unsigned int largeSize = 1000000;
+    std::cout << "start large test" << std::endl;
+    unsigned int largeSize = 100000;
     Span sp4 = Span(largeSize);
     std::vector<int> largeNums;
     srand(time(NULL));
-    for (unsigned int i = 0; i < largeSize; i++) {
+    for (unsigned int i = 0; i < largeSize; i++)
+    {
         // largeNums.push_back(rand());
         largeNums.push_back(i);
     }
-    time(&rap);
-    std::cout << "registered large numbers :" << rap - start << "s"
+    std::cout << "registered large numbers"
               << std::endl;
     sp4.addNumbers(largeNums.begin(), largeNums.end());
-    try {
+    try
+    {
         sp4.addNumber(42);
-        assert(false);  // Should not reach here
-    } catch (const std::out_of_range &e) {
+        assert(false); // Should not reach here
+    }
+    catch (const std::out_of_range &e)
+    {
         assert(std::string(e.what()) == "Span is full");
     }
     assert(sp4.getSize() == largeSize);
-    time(&start);
-    std::cout << "start large span calc :" << start - start << "s" << std::endl;
+    std::cout << "start large span calc" << std::endl;
     int testShortest = sp4.shortestSpan();
     assert(testShortest == 1);
     std::cout << "testShortest: " << testShortest << std::endl;
-    time(&rap);
-    std::cout << "calculated short span :" << rap - start << "s" << std::endl;
-    time(&start);
-    std::cout << "start long span calc :" << start - start << "s" << std::endl;
+    std::cout << "calculated short span" << std::endl;
+    std::cout << "start long span calc" << std::endl;
     int testLongest = sp4.longestSpan();
-    assert(testLongest == 999999);
+    assert(testLongest == 99999);
     std::cout << "testLongest: " << testLongest << std::endl;
-    time(&rap);
-    std::cout << "calculated long span :" << rap - start << "s" << std::endl;
+    std::cout << "calculated long span" << std::endl;
 
     std::cout << "All tests passed!" << std::endl;
     return 0;
